@@ -15,6 +15,14 @@ class Array
   end
 end
 
+class String
+  def squish
+    newstr = self.gsub(/[[:space:]]+/, " ")
+    newstr = self.strip
+    newstr
+  end
+end
+
 class Checkout
   include Constants
   attr_accessor :promotional_rules
@@ -29,7 +37,7 @@ class Checkout
   end
 
   def scan(item_code)
-    @scan_items << item_code
+    @scan_items << item_code.squish
   end
 
   def total
