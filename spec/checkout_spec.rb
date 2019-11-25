@@ -25,6 +25,20 @@ describe Checkout do
     expect(checkout.total).to eq 54.25
   end
 
+  it 'scan some promotions without database and more space' do
+    checkout = Checkout.new('dont_have_this_promotion, discount_by_number_item    ')
+    checkout.scan('001')
+    checkout.scan('002')
+    expect(checkout.total).to eq 54.25
+  end
+
+  it 'scan duplicate promotional_rules' do
+    checkout = Checkout.new('discount_by_number_item, discount_by_number_item    ')
+    checkout.scan('001')
+    checkout.scan('002')
+    expect(checkout.total).to eq 54.25
+  end
+
   describe 'Total without promotion' do
     before(:each) do
       @checkout = Checkout.new
@@ -281,6 +295,19 @@ describe Checkout do
         @checkout.scan('005')
         @checkout.scan('005')
         expect(@checkout.total).to eq 76.46
+      end
+      it 'discount 3 items -- duplicate rules discount_by_cost and discount_by_number_item' do
+        checkout = Checkout.new('discount_by_cost   , discount_by_cost, discount_by_number_item, dont_have_this')
+        checkout.scan('001')
+        checkout.scan('002')
+        checkout.scan('001')
+        checkout.scan('003')
+        checkout.scan('004')
+        checkout.scan('004')
+        checkout.scan('005')
+        checkout.scan('005')
+        checkout.scan('005')
+        expect(checkout.total).to eq 76.46
       end
     end
   end
