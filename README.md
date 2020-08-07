@@ -1,4 +1,4 @@
-# pv_logivan_nov_2019
+# simple ruby with rspec -- 2019 - 1k450
 The interface to our checkout looks like this (shown in Ruby):
 ```ruby
 co = Checkout.new(promotional_rules)
